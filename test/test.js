@@ -63,6 +63,18 @@ describe('A person', function() {
         assertMedal(bob, 'gold', done);
     });
 
+    it('with medals still reports rank', function(done) {
+        var bob = new Person();
+        bob = new PersonWithMedals(bob);
+        bob.promote().promote().promote().promote().promote();
+        bob.reportRank({
+            write : function(rank){
+                rank.should.eql(5);
+                done();
+            }
+        });
+    });
+
     function assertMedal(person, medal, callback) {
         var medalWriter = {
             write: function(obj) {

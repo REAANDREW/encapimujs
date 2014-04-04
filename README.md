@@ -31,6 +31,35 @@ If you omit the surrounding brackets of the classic Revealing Module Pattern imp
 ##Support instance methods
 This is just the same as with the classic Revealing Module Pattern only here we are using the Object.freeze method on the object being returned.  This means that to extend this object with further behaviour you would have to use composition, but this is not a bad thing.  For this example the Person object will get two methods, promote and demote.  Another method is also added called '''reportRank''' so we can use a **Tell Don't Ask** approach to asserting on the Person object (this is also very closely related to the **Visitor Pattern**)
 
+```javascript
+function (a,b,c,d,e,f,g,h) {
+
+    var rank = 0;
+
+    function promote() {
+        rank++;
+        return funcs;
+    }
+
+    function demote() {
+        rank--;
+        return funcs;
+    }
+
+    function reportRank(writer) {
+        writer.write(rank);
+    }
+
+    var funcs = Object.freeze({
+        promote: promote,
+        demote: demote,
+        reportRank: reportRank
+    });
+
+    return funcs;
+}
+```
+
 ###Implementation
 
     var Person = function() {
