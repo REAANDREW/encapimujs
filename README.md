@@ -2,6 +2,11 @@
 
 All of the example make use of the **Revealing Module Pattern** and the '''Object.freeze''' method in JavaScript.  All of the examples are using **mocha** and **should** libraries to implement the tests and the assertions.
 
+##Running the tests
+
+    npm install
+    grunt
+
 ##Instantiation of an object
 If you omit the surrounding brackets of the classic Revealing Module Pattern implementation you can instantiate your objects just as you could if you were using the '''prototype''' style.
 
