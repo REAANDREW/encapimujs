@@ -33,34 +33,7 @@ This is just the same as with the classic Revealing Module Pattern only here we 
 
 ###Implementation
 
-```javascript
-var Person = function (a,b,c,d,e,f,g,h) {
-
-    var rank = 0;
-
-    function promote() {
-        rank++;
-        return funcs;
-    }
-
-    function demote() {
-        rank--;
-        return funcs;
-    }
-
-    function reportRank(writer) {
-        writer.write(rank);
-    }
-
-    var funcs = Object.freeze({
-        promote: promote,
-        demote: demote,
-        reportRank: reportRank
-    });
-
-    return funcs;
-}
-```
+gce: injectClass(require('./lib/encapimu').Person,'Person')
 
 ###Test Code
     it('can be promoted', function(done) {
