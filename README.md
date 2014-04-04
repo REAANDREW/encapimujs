@@ -53,15 +53,15 @@ This is just the same as with the classic Revealing Module Pattern only here we 
 
 ###Test Code
     it('can be promoted', function(done) {
-        var p1 = new Person();
-        p1.promote();
+        var bob = new Person();
+        bob.promote();
         var assertWriter = {
             write : function(obj){
                 obj.should.eql(1);
                 done();
             }
         };  
-        p1.reportRank(assertWriter);
+        bob.reportRank(assertWriter);
     });
 
 ###Test Result
@@ -106,15 +106,15 @@ One of the handy implementatioasn when instantiating objects is when you return 
 
 ###Test Code
     it('can be demoted', function(done) {
-        var p1 = new Person();
-        p1.promote().promote().demote();
+        var bob = new Person();
+        bob.promote().promote().demote();
         var assertWriter = {
             write: function(obj) {
                 obj.should.eql(1);
                 done();
             }
         };
-        p1.reportRank(assertWriter);
+        bob.reportRank(assertWriter);
     });
 
 ###Test Result
@@ -126,3 +126,125 @@ One of the handy implementatioasn when instantiating objects is when you return 
 
 
     3 passing (8ms)
+
+##Composition
+The following example shows composition of objects where the Person object is now wrapped with an object which reports a different medal depending on the rank.  The important thing here is to ensure that any methods exposed by the object being wrapped, need to be exposed by the object doing the wrapping.  Some helper extension could easily be made to reduce the required coding here and enable only methods which need to be changed to be re-declared.
+
+
+###Implementation
+    var personWithMedals = function(person) {
+
+        var medals = {
+            0: 'none',
+            3: 'bronze',
+            4: 'silver',
+            5: 'gold'
+        };
+        var medal = medals[0];
+
+        var rankWriter = {
+            write : assignMedal
+        }
+
+        function reportMedals(writer) {
+            writer.write(medal);
+        }
+
+        function assignMedal(rank) {
+            if (medals[rank] === undefined) {
+                medal = medals[3];
+            } else {
+                medal = medals[rank];
+            }
+        }
+
+        function promote() {
+            person.promote();
+            person.reportRank(rankWriter);
+            return funcs;
+        }
+
+        function demote() {
+            person.demote();
+            person.reportRank(rankWriter);
+            return funcs;
+        }
+
+        var funcs = {
+            reportMedals: reportMedals,
+            promote: promote,
+            demote: demote,
+            reportRank: person.reportRank
+        };
+
+        return funcs;
+    }
+
+###Test Code
+    it('gets no medals when they have no promotions', function(done) {
+        var bob = new Person();
+        bob = new PersonWithMedals(bob);
+        assertMedal(bob, 'none', done);
+    });
+
+    it('gets a bronze medal with three promotions', function(done) {
+        var bob = new Person();
+        bob = new PersonWithMedals(bob);
+        bob.promote().promote().promote();
+        assertMedal(bob, 'bronze', done);
+    });
+
+    it('gets a silver medal with four promotions', function(done) {
+        var bob = new Person();
+        bob = new PersonWithMedals(bob);
+        bob.promote().promote().promote().promote();
+        assertMedal(bob, 'silver', done);
+    });
+
+    it('gets a gold medal with five promotions', function(done) {
+        var bob = new Person();
+        bob = new PersonWithMedals(bob);
+        bob.promote().promote().promote().promote().promote();
+        assertMedal(bob, 'gold', done);
+    });
+
+    function assertMedal(person, medal, callback) {
+        var medalWriter = {
+            write: function(obj) {
+                obj.should.eql(medal);
+                callback();
+            }
+        };
+        person.reportMedals(medalWriter);
+    }
+
+###Test Result
+
+    A person
+        ✓ can be modelled 
+        ✓ can be promoted 
+        ✓ can be demoted 
+
+    A person
+        ✓ gets no medals when they have no promotions 
+        ✓ gets a bronze medal with three promotions 
+        ✓ gets a silver medal with four promotions 
+        ✓ gets a gold medal with five promotions 
+
+
+    7 passing (9ms)
+
+##Exporting your objects in node.js
+
+The above objects were exported in the example project with the following code.  The definitions were made in camelCase and exported in pascal case.
+
+###Implementation
+
+    module.exports = {
+        Person: person,
+        PersonWithMedals: personWithMedals
+    };
+
+##Compatible with super strict jshint profile
+
+Please see the .jshintrc to see the profile of JSHint.
