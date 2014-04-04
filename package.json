@@ -1,0 +1,43 @@
+{
+  "name": "encapimu",
+  "description": "A demonstration of Encapsulation, Immutability and Method Chaining in JavaScript",
+  "version": "0.1.0",
+  "homepage": "https://github.com/REAANDREW/encapimujs",
+  "author": {
+    "name": "Andrew Rea",
+    "email": "email@andrewrea.co.uk",
+    "url": "http://www.andrewrea.co.uk"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/REAANDREW/encapimujs.git"
+  },
+  "bugs": {
+    "url": "https://github.com/REAANDREW/encapimujs/issues"
+  },
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "https://github.com/REAANDREW/encapimujs/blob/master/LICENSE-MIT"
+    }
+  ],
+  "main": "lib/encapimu",
+  "engines": {
+    "node": ">= 0.8.0"
+  },
+  "scripts": {
+    "test": "grunt mocha"
+  },
+  "devDependencies": {
+    "grunt-contrib-jshint": "~0.10.0",
+    "grunt-contrib-nodeunit": "~0.2.0",
+    "grunt-contrib-watch": "~0.6.1",
+    "grunt": "~0.4.4",
+    "grunt-cli": "~0.1.13",
+    "grunt-mocha-test": "~0.10.0"
+  },
+  "keywords": [],
+  "dependencies": {
+    "should": "~3.2.0"
+  }
+}
