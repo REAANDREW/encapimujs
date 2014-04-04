@@ -12,11 +12,9 @@ If you omit the surrounding brackets of the classic Revealing Module Pattern imp
 
 ###Test Code
 
-    describe('A person', function() {
-        it('can be modelled', function() {
-            var bob = new Person();
-            should(bob).not.eql(null);
-        });
+    it('can be modelled', function() {
+        var bob = new Person();
+        should(bob).not.eql(null);
     });
 
 ###Test Result
@@ -54,22 +52,16 @@ This is just the same as with the classic Revealing Module Pattern only here we 
     }
 
 ###Test Code
-    describe('A person', function() {
-        it('can be modelled', function() {
-            var bob = new Person();
-            should(bob).not.eql(null);
-        });
-        it('can be promoted', function(done) {
-            var p1 = new Person();
-            p1.promote();
-            var assertWriter = {
-                write : function(obj){
-                    obj.should.eql(1);
-                    done();
-                }
-            };  
-            p1.reportRank(assertWriter);
-        });
+    it('can be promoted', function(done) {
+        var p1 = new Person();
+        p1.promote();
+        var assertWriter = {
+            write : function(obj){
+                obj.should.eql(1);
+                done();
+            }
+        };  
+        p1.reportRank(assertWriter);
     });
 
 ###Test Result
@@ -112,3 +104,25 @@ One of the handy implementatioasn when instantiating objects is when you return 
         return funcs;
     };
 
+###Test Code
+    it('can be demoted', function(done) {
+        var p1 = new Person();
+        p1.promote().promote().demote();
+        var assertWriter = {
+            write: function(obj) {
+                obj.should.eql(1);
+                done();
+            }
+        };
+        p1.reportRank(assertWriter);
+    });
+
+###Test Result
+
+    A person
+        ✓ can be modelled 
+        ✓ can be promoted 
+        ✓ can be demoted 
+
+
+    3 passing (8ms)
